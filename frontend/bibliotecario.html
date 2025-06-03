@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Painel do Bibliotecário</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Painel do Bibliotecário</h1>
+
+  <section>
+    <h2>Cadastro de Novo Livro</h2>
+    <input type="text" id="titulo" placeholder="Título">
+    <input type="text" id="autor" placeholder="Autor">
+    <input type="number" id="ano" placeholder="Ano de Publicação">
+    <input type="number" id="quantidade" placeholder="Quantidade Disponível">
+    <button onclick="cadastrarLivro()">Cadastrar Livro</button>
+  </section>
+
+  <section>
+    <h2>Lista de Livros</h2>
+    <table border="1" id="tabelaLivros">
+      <thead>
+        <tr>
+          <th>ID</th><th>Título</th><th>Autor</th><th>Ano</th><th>Qtd</th><th>Ações</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Empréstimos Ativos</h2>
+    <table border="1" id="tabelaEmprestimos">
+      <thead>
+        <tr>
+          <th>Leitor</th><th>Livro</th><th>Data Empréstimo</th><th>Data Prevista</th><th>Status</th><th>Ação</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>

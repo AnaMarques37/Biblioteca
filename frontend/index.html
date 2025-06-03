@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Biblioteca - Login e Registro</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Sistema de Biblioteca</h1>
+
+  <div class="container">
+    <div class="form-box">
+      <h2>Login</h2>
+      <input type="email" id="loginEmail" placeholder="Email">
+      <input type="password" id="loginSenha" placeholder="Senha">
+      <button onclick="login()">Entrar</button>
+    </div>
+
+    <div class="form-box">
+      <h2>Registro</h2>
+      <input type="text" id="nome" placeholder="Nome">
+      <input type="email" id="email" placeholder="Email">
+      <input type="password" id="senha" placeholder="Senha">
+      <select id="perfil">
+        <option value="leitor">Leitor</option>
+        <option value="bibliotecario">Bibliotecário</option>
+      </select>
+      <button onclick="registrar()">Registrar</button>
+    </div>
+  </div>
+
+  <p id="mensagem"></p>
+
+  <script src="script.js"></script>
+</body>
+</html>

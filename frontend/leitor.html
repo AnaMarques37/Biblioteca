@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Painel do Leitor</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Painel do Leitor</h1>
+
+  <section>
+    <h2>Livros Disponíveis</h2>
+    <table border="1" id="livrosDisponiveis">
+      <thead>
+        <tr>
+          <th>ID</th><th>Título</th><th>Autor</th><th>Ano</th><th>Qtd</th><th>Ação</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Meus Empréstimos</h2>
+    <table border="1" id="meusEmprestimos">
+      <thead>
+        <tr>
+          <th>Livro</th><th>Data Empréstimo</th><th>Data Prevista</th><th>Status</th><th>Ação</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <script>
+    const API_URL = 'http://localhost:3000/api';
+    const leitorId = 1; // ⚠️ Substituir pelo ID real do leitor logado
+
+    function carregarLivros() {
+      fetch(`${API_URL}/livros`)
+        .then(res => res.json())
+        .then(livros => {
+          const tbody = document.querySelector('#livrosDisponiveis tbody');
+          tbody.innerHTML = '';
+          livros.forEach(l => {
+            if (l.quantidade_disponivel > 0) {
+              tbody.innerHTML += `
+                <tr>
+                  <td>${l.id}</td>
+                  <td>${l.titulo}</td>
+                  <td>${l.autor}</td>
+                  <td>${l.ano_publicacao}</td>
+                  <td>${l.quantidade_disponivel}</td>
+                  <td><button onclick="solicitarEmprestimo(${l.id})">Emprestar</button></td>
+                </tr>
+              `;
+            }
+          });
+        });
+    }
+
+    function solicitarEmprestimo(livroId) {
+      const hoje = new Date().toISOString().slice(0, 10);
+      const devolucao = new Date();
+      devolucao.setDate(devolucao.getDate() + 7);
+      const dataDev = devolucao.toISOString().slice(0, 10);
+
+      fetch(`${API_URL}/emprestimos`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          livro_id: livroId,
+          leitor_id: leitorId,
+          data_emprestimo: hoje,
+          data_devolucao_prevista: dataDev
+        })
+      }).then(() => {
+        carregarLivros();
+        carregarEmprestimos();
+      });
+    }
+
+    function carregarEmprestimos() {
+      fetch(`${API_URL}/emprestimos/leitor/${leitorId}`)
+        .then(res => res.json())
+        .then(emp => {
+          const tbody = document.querySelector('#meusEmprestimos tbody');
+          tbody.innerHTML = '';
+          emp.forEach(e => {
+            tbody.innerHTML += `
+              <tr>
+                <td>${e.titulo}</td>
+                <td>${e.data_emprestimo}</td>
+                <td>${e.data_devolucao_prevista}</td>
+                <td>${e.status}</td>
+                <td>
+                  ${e.status === 'ativo' ? `<button onclick="solicitarDevolucao(${e.id})">Solicitar Devolução</button>` : ''}
+                </td>
+              </tr>
+            `;
+          });
+        });
+    }
+
+    function solicitarDevolucao(id) {
+      fetch(`${API_URL}/emprestimos/${id}/solicitar-devolucao`, {
+        method: 'PUT'
+      }).then(() => carregarEmprestimos());
+    }
+
+    carregarLivros();
+    carregarEmprestimos();
+  </script>
+</body>
+</html>
