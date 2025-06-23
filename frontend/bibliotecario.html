@@ -17,6 +17,15 @@
     <button onclick="cadastrarLivro()">Cadastrar Livro</button>
   </section>
 
+  <section id="edicaoLivroSection" style="display: none;"> <h2>Edição de Livro</h2>
+    <input type="hidden" id="editLivroId"> <input type="text" id="editTitulo" placeholder="Título">
+    <input type="text" id="editAutor" placeholder="Autor">
+    <input type="number" id="editAno" placeholder="Ano de Publicação">
+    <input type="number" id="editQuantidade" placeholder="Quantidade Disponível">
+    <button onclick="salvarEdicaoLivro()">Salvar Edição</button>
+    <button onclick="cancelarEdicao()">Cancelar</button>
+  </section>
+
   <section>
     <h2>Lista de Livros</h2>
     <table border="1" id="tabelaLivros">
